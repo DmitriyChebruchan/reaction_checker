@@ -3,31 +3,31 @@ import time
 import math
 
 
+# function returns updated list of elements in random order from input list
+def randomize_list(input_list):
+    import random
+    output_list = []
+    while len(input_list) > 0:
+        element = random.choice(input_list)
+        output_list.append(element)
+        input_list.remove(element)
+    return output_list
+
+
+
 def reaction_checker():
-    print('\n\n\nПривет! Это программа для тестирования реакции.')
-    time.sleep(3) 
-    print('Сейчас будет запущен тест 5 раз по каждому из 4 временных отрезков.')
-    time.sleep(3)
-    print('Временные отрезки: 2, 3, 4, 5 секунд.\n')
-    time.sleep(3)
-    print('Чтобы запустить таймер или остановить таймер нажмите Enter на клавиатуре.')
-    input('\nОтрепетируем. \nНажмите Enter один раз.\n')
-    print('\nХорошо! Начнем тест.\n')
-    time.sleep(3)
+    instructions()
+
+    test_run()
+    list_of_numbers = randomize_list([2, 3, 4, 5] * 4) 
 
     result = {}
-    for i in range(1, 5):
-        collected_results = []
-        for n in range(5):
-            collected_results.append(checker(i+1, n+1))
-        avrg = math.fsum(collected_results)/len(collected_results)
-        result[str(i+1)] = round(avrg, 3)
-        print('Тестирование реации на период {} секунд заверщено.'.format(i+1))
-        print('____________________________________________________________')
-        print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-        print('____________________________________________________________')
-    for key, value in result.items():
-        print('Среднее время реации на период {} секунд: {} секунд.'.format(key, value))
+
+    collected_results = {2: [], 3: [], 4: [], 5: []}
+
+    for n in range(len(list_of_numbers)):
+        collected_results[list_of_numbers[n]].append(checker(list_of_numbers[n], n+1))
+  
     tau = calculate_tau(result)
     sigma = sigma_calculator(result, tau)
     options = {'Холерик': [0.7, 0.8],
@@ -39,6 +39,23 @@ def reaction_checker():
             print('Ваш тип темперамента - {}'.format(key))
             break
     print('_________________________________________________________\n')
+
+
+# function that prints instuctions
+def instructions():
+    print('''
+    Привет! Это программа для тестирования реакции.
+    Сейчас будет запущен тест 5 раз по каждому из 4 временных отрезков.
+    Временные отрезки: 2, 3, 4, 5 секунд.
+    Чтобы запустить таймер или остановить таймер нажмите Enter на клавиатуре.
+    ''')
+
+
+# function that runs the test run
+def test_run():
+    input('\nОтрепетируем. \nНажмите Enter один раз.\n')
+    print('\nХорошо! Начнем тест.\n')
+    time.sleep(3)
 
 
 def sigma_calculator(result, tau):
@@ -57,8 +74,7 @@ def calculate_tau(result):
 
 
 def checker(time_period, try_number):
-    print("Сейчас мы тестируем период {} секунд.".format(time_period))
-    print('Номер текущей поптыки - {} из 5\n'.format(try_number))
+    print('Номер текущей поптыки - {} из 20\n'.format(try_number))
     print('Нажмите Enter на клавиатуре, чтобы запустить таймер.')
     print('Нажмите ее снова, чтобы остановить таймер через {} секунд.'.format(time_period))
     input()
