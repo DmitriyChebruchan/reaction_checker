@@ -27,6 +27,7 @@ def reaction_checker():
         collected_results[list_of_numbers[n]].append(checker(list_of_numbers[n], n+1))
   
     tau = calculate_tau(collected_results)
+    print(tau)
     sigma = sigma_calculator(collected_results, tau)
 
     options = {'Холерик': [0.7, 0.8],
@@ -78,7 +79,7 @@ def test_run():
 def sigma_calculator(result, tau):
     sigma = {}
     for key, value in result.items():
-        element = value/int(key) - tau
+        element = sum(value)/5/int(key) - tau
         sigma[key] = element
     print('Сигма: {}'.format(sigma))
     return sigma
